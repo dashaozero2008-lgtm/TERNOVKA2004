@@ -1,0 +1,46 @@
+name: Smart Notes App CI
+
+# 1. Триггеры запуска: когда запускать этот сценарий
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    # Запускаем на чистой и быстрой ОС Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+    # Шаг 1: Скачиваем (клонируем) код репозитория на виртуальную машину
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    # Шаг 2: Разворачиваем и изолируем нужную версию Python
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    # Шаг 3: Устанавливаем системные зависимости для работы графического интерфейса (Tkinter) в Linux
+    - name: Install Linux GUI Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-tk xvfb
+
+    # Шаг 4: Обновляем pip и устанавливаем библиотеку для анализа покрытия кода
+    - name: Install Testing Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install coverage
+
+    # Шаг 5: Запуск тестов под управлением виртуального дисплея (Xvfb) с одновременным сбором метрик покрытия
+    - name: Run Tests with Code Coverage inside Xvfb
+      run: |
+        xvfb-run --server-args="-screen 0 1024x768x24" coverage run -m unittest discover -v
+
+    # Шаг 6: Вывод итоговой таблицы покрытия кода в лог сборки GitHub
+    - name: Display Coverage Report
+      run: |
+        coverage report -m
