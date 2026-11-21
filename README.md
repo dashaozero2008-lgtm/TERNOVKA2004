@@ -5,4 +5,4 @@ powershell
 git clone https://github.com/dashaozero2008-lgtm/TERNOVKA2004
 2. Перейдите в директорию проекта.
 3. Запустите приложение.
-Либо вы можете открыть сайт по ссылке: https://dashaozero2008-lgtm.github.io/TERNOVKA2004/
+4. Либо вы можете открыть сайт по ссылке: https://dashaozero2008-lgtm.github.io/TERNOVKA2004/
