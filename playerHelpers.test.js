@@ -1,5 +1,3 @@
-import { describe, it, expect } from 'vitest';
-
 const formatDuration = (seconds) => {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
